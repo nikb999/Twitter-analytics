@@ -16,7 +16,7 @@
 
 #add the path of the twitter egg
 import sys
-egg_path = '/home/users/web/b603/moo.nikb999com/cgi-bin/PyPkg/twitter-1.14.3-py2.7.egg'
+egg_path = '/home/users/web/........./cgi-bin/PyPkg/twitter-1.14.3-py2.7.egg'
 sys.path.append(egg_path)
 
 
