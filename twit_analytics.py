@@ -1,19 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-#TWIT_V119.py        for FATCOW implementation
-#Webtunnel_vNNN.py
-
-#Program to test TWITTER API functionality
-
-#Program objectives
-# - to get the data of the user
-# - first get the first personal data
-# - then get the friends and follower list
-# - then get the last 200 tweets and analyze them
-# - tweets are saved in the simple SQLITE3 database
-
-
 #add the path of the twitter egg
 import sys
 egg_path = '/home/users/web/........./cgi-bin/PyPkg/twitter-1.14.3-py2.7.egg'
@@ -24,7 +11,6 @@ sys.path.append(egg_path)
 import json, urllib2, re, time, datetime, sys, cgi, os
 import sqlite3
 import MySQLdb as mdb
-#import pymysql as mdb
 import string, random
 from urlparse import urlparse
 from twitter import *
@@ -175,7 +161,6 @@ def user_public_info(find_id_for):
     try:
         t = Twitter(auth=OAuth(define_keys()[2],define_keys()[3],define_keys()[0],define_keys()[1]))
         response = t.users.lookup(screen_name=find_id_for)
-        #print '<p>', '\tResponses left:', response.headers['x-rate-limit-remaining'] ,'</p>' 
         do_rest_of_module = 1
     except:
        print '<p>', 'Error getting public data' ,'</p>' 
@@ -193,9 +178,6 @@ def user_public_info(find_id_for):
         print '<li>Followers:',response[0]['followers_count'] ,'</li>'
         print '<li>Messages posted:',response[0]['statuses_count'] ,'</li>' 
         print '</ul>'
-        #print >> f1, json.dumps(response[0],indent=2)
-        
-    #html_end()        
 
 
     
@@ -348,9 +330,7 @@ def get_last200_tweets(in_user):
         #print '<p>Twit list:',type(base_twit_list),'\t',len(base_twit_list),'</p>'    
         return top10users, base_twit_list, data_for_plots
 
-
-
-        
+       
 def display_data(scn_name):
     html_start()
     print '<div id="body_sty">'
@@ -437,9 +417,7 @@ def display_data(scn_name):
                     print '',
 
         print >> t2, '</table>'
-
-
-        
+      
         #print out the chart data
         #data fields: screen_name, friends, followers, msgs, daterange, tweets, retweets
         #print json.dumps(final_data_for_plots,indent=2)
@@ -490,7 +468,6 @@ def display_data(scn_name):
             y2_fdfp.append( (final_data_for_plots[xy1][5]-final_data_for_plots[xy1][6]) / max(final_data_for_plots[xy1][4],1)  )
            
         two_bar_chart_data("Tweets sent per day", x_fdfp, y1_fdfp, y2_fdfp)
-
 
         print '<h3>Tweet range (tweets seen per day)</h3>'
         x_fdfp = []
@@ -559,10 +536,6 @@ def lex_anal(incomingTweetList):
                     
     
     #summarize the two new lists
-    #print type(sender_htag), len(sender_htag)
-    #print sender_htag[:10]
-    #print type(sender_at), len(sender_at)
-    #print sender_at[:10]
     
     #following lists don't have dates
     sender_htag2 = [xx[1] for xx in sender_htag]
@@ -625,9 +598,7 @@ def lex_anal(incomingTweetList):
         print '<br><br>'
         print '<h3>Most Referenced Users</h3>'
         heatmap_table(trows,tcols,at_data4heatmap)
-    
-    
-    
+        
     
 def heatmap_table(trows,tcols,hm):
     #calculate the max and min of the references
@@ -656,8 +627,7 @@ def heatmap_table(trows,tcols,hm):
             arow[2]='#A50F15'
         elif rval>=0.9:
             arow[2]='#67000D'
-
-    
+   
     print '<table width=100% style="display: block;">       '
     for i in range(trows+1):
         print '<tr>',
@@ -677,7 +647,6 @@ def heatmap_table(trows,tcols,hm):
   
     print '</table>      '
    
-
   
 def print_detailed_tweets(in_usertocheck):
     html_start()
@@ -722,8 +691,6 @@ def bar_chart_data(cht_title,xdata,ydata):
     # draws it.
     print '  function drawChart() {  '
 
-
-    #print '<p>Inside chart middle</p>'
     # Create the data table.
     print '    var data = new google.visualization.arrayToDataTable([  '
     print '    [   \'Screen Name\', \' ' , cht_title, ' \', {role:\'style\'} ],        '
@@ -733,7 +700,6 @@ def bar_chart_data(cht_title,xdata,ydata):
         else:
             print "  [ \'", xdata[cdi], "\',",  ydata[cdi], ", \'blue\' ], "
 
-    #print '      [\'\', 0]  '
     print '    ]);  '
 
     #Set chart options
@@ -783,7 +749,6 @@ def two_bar_chart_data(cht_title,xdata,ydata1,ydata2):
         if cdi>0:
             print "  [ \'", xdata[cdi], "\',",  ydata1[cdi],",\'blue\',", ydata2[cdi], ", \'red\' ], "
 
-    #print '      [\'\', 0]  '
     print '    ]);  '
 
     #Set chart options
@@ -858,12 +823,6 @@ def twit_date(in_created_at):
     return out_date
 
     
-def test2(inin,inin2):
-    html_start()
-    print '<p>Something wrong - cannot print tweet list for',inin,inin2,'</p>'
-    html_end()
-
-
 # Define main function.
 def main():
     form = cgi.FieldStorage()
